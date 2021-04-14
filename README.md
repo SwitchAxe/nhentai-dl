@@ -7,8 +7,8 @@ you must write `NHDL 242460`. the program aborts if the argument is not a number
 but makes no check on the existance of the related manga, so its behaviour in that case is undefined. 
 
 # Dependencies
-NHDL is really light, and only the fish shell, grep, wget, [img2pdf](https://github.com/myollie/img2pdf) and sed are needed. other utilities, like cd and mkdir, are 
-standard \*nix commands, and hopefully don't need installation (if you're on \*nix or *nix-like systems, that is).
+for NHDL, only python3, the fish shell, grep, wget, [img2pdf](https://github.com/myollie/img2pdf) and sed are needed. other utilities, like cd and mkdir, are 
+standard \*nix commands, and don't need a separate installation (if you're on \*nix or *nix-like systems, that is).
 
 # Installation
 you can either install the tool by putting it manually in one of the directories in your path, by linking it in said directories, or by using the handy (and very broken, but functional) installation script. just
