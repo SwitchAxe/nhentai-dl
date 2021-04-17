@@ -2,6 +2,12 @@
 #nhentai.net manga to pdf converter 
 
 if test ( echo $argv[1] | sed 's/[0-9]*//') = ""; and test (count $argv) = "1"
+    set check_if_page_exists (curl -sfL "https://www.nhentai.net/g/$argv[1]")
+    if test $status != 0
+        printf "%s\n" \
+               "manga doesn't exist, aborting."
+        exit
+    end
     if not test -d "temp"
         mkdir "temp"
     end
