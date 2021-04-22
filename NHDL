@@ -12,9 +12,12 @@ if test ( echo $argv[1] | sed 's/[0-9]*//') = ""; and test (count $argv) = "1"
         mkdir "temp"
     end
     cd "temp"
+    if test -f 1.jpg; or test -f 1.png #if there are images from previous downloads...
+        rm * #...delete them.
+    end
     #getting the index.html to parse:
     wget "https://www.nhentai.net/g/$argv[1]/" -q -O tempindex
-
+    
     set gallery_number (cat tempindex | 
                         grep "window._gallery" | 
                         sed 's/\\u0022//g' | 
@@ -22,13 +25,16 @@ if test ( echo $argv[1] | sed 's/[0-9]*//') = ""; and test (count $argv) = "1"
                         grep -E -o 'media_id:[[:digit:]]+' | 
                         sed 's/media_id://')
     #getting the pages
+    
     set current_page_number 1
     while test -z (wget "https://i.nhentai.net/galleries/$gallery_number/$current_page_number.jpg" -nv 2>&1 | grep "404: Not Found");
           or test -z (wget "https://i.nhentai.net/galleries/$gallery_number/$current_page_number.png" -nv 2>&1 | grep "404: Not Found")
         printf "%s\n" "downloading page number $current_page_number"
         set current_page_number (expr $current_page_number + 1)
     end
-    for i in (seq 1 (expr $current_page_number - 1))
+    
+    
+    for i in (seq 1 (expr $current_page_number - 1)) #from 1 to current_page_number-1
         if test -f "$i.png" #if there's any .png file...
             printf "%s" "converting image number $i... "
             magick "$i.png" "$i.jpg" #...convert it to jpeg.
@@ -36,7 +42,9 @@ if test ( echo $argv[1] | sed 's/[0-9]*//') = ""; and test (count $argv) = "1"
         end
     end    
     printf "%s" "removing leftovers... "
-    rm *.png #removes leftovers
+    if test -f "*.png"    
+        rm *.png #removes leftovers
+    end
     rm tempindex
     printf "%s\n" "done."
     printf "%s" "creating the pdf... "
