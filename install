@@ -19,7 +19,7 @@ else
         printf "%s\n" "error while installing NHDL; aborting." > "/dev/stderr"
     end
     
-    if test -z (echo $PATH | grep ".local/bin/")
+    if test -z (echo $PATH | grep ".local/bin")
         set $choice ""
         printf "%s\n" \
             ".local/bin/ (the default installation directory) is not in PATH, do you want to add it now? [Y/n]"
@@ -27,7 +27,8 @@ else
         printf "\n"
         switch "$choice"
             case "Y" "ye" "yes" 
-                printf "set PATH $HOME/.local/bin \$PATH" >> "$HOME/.config/fish/config.fish"
+                printf "\n" >> "$HOME/.config/fish/config.fish"
+                printf "set PATH \"$HOME/.local/bin $PATH\"" >> "$HOME/.config/fish/config.fish"
             case "n" "no"
                 printf "%s\n" \
                 "in order to use NHDL, please add $HOME/.local/bin/ to PATH in your shell's configuration file."
